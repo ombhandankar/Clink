@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:chumma/services/database.dart';
 
 
 class ProfilePage extends StatelessWidget {
@@ -9,6 +10,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     User?
     user = FirebaseAuth.instance.currentUser;
+    DatabaseService databaseService = DatabaseService();
 
     if (user != null) {
 
@@ -24,9 +26,14 @@ class ProfilePage extends StatelessWidget {
             children: [
               Text(user.email ?? '', style: Theme.of(context).textTheme.bodyLarge),
               Spacer(),
-              Image.network(user.photoURL ?? '',
+             ElevatedButton(
+                 onPressed: ()  {
+                   print('hemloo');
+                   databaseService.deleteMyStatusManually();},
+                 child: Text('Delete Status'))
+             // Image.network(user.photoURL ?? ''
 
-                )
+               // )
             ],
           ),
         ),

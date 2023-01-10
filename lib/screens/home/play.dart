@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './models/Status2.dart';
-import './screens/home/add_status.dart';
+import '../../models/Status2.dart';
+import 'add_status.dart';
 import 'package:provider/provider.dart';
 import 'package:chumma/services/database.dart';
 
@@ -29,7 +29,7 @@ class StatusView extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
                   child: Row(children: <Widget>[
                     ImageIcon(NetworkImage(
-                        status?.photoUrl ?? 'https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png'),
+                         'https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png'),
                       size: 40,
                     ),
                     Text(status?.name ?? 'om', style: new TextStyle(fontSize: 30.0),),

@@ -3,7 +3,7 @@ import 'package:time/time.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:chumma/shared/loading.dart';
 import 'package:chumma/services/database.dart';
-import 'package:chumma/play.dart';
+import 'package:chumma/screens/home/play.dart';
 
 class StatusForm extends StatefulWidget {
   const StatusForm({Key? key}) : super(key: key);
@@ -135,6 +135,7 @@ class _StatusFormState extends State<StatusForm> {
                       {
                         String sTime = time.toString();
                        //  dynamic result =  await DatabaseService(uid: user?.uid).updateUserData('new user', 'bms', 10);
+                         await DatabaseService().deleteMyStatusAutomatically(time);
                         await DatabaseService(uid: user?.uid).updateUserStatus(description, location, typeOfMeet, sTime,user?.uid ?? '');
                         Navigator.push(context,MaterialPageRoute(builder:(context)=> StatusView()));
                       }

@@ -67,17 +67,15 @@ class _RegisterState extends State<Register> {
   Future uploadFile() async {
     if (_photo == null) return;
     final fileName = basename(_photo!.path);
-    final destination = 'files/$fileName';
+    final destination = 'Profile Photo/$fileName';
 
-    try {
+
       final ref = firebase_storage.FirebaseStorage.instance
           .ref(destination)
-          .child('file/');
+          .child('Profile Photo');
       await ref.putFile(_photo!);
       photoUrl=  await ref.getDownloadURL();
-    } catch (e) {
-      print('error occured');
-    }
+
   }
 
   @override

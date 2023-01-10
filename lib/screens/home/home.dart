@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:chumma/services/database.dart';
 import 'package:provider/provider.dart';
 import 'package:chumma/screens/home/status_list.dart';
-import '../../play.dart';
+import 'play.dart';
 import '../../models/status.dart';
 import 'bottom_Nav.dart';
 import '../../models/menuItem.dart';
