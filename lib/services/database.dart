@@ -3,27 +3,23 @@ import 'package:chumma/models/Status2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:chumma/models/notification.dart';
 class DatabaseService
 {
   final String? uid;
   DatabaseService({ this.uid});
 
   User? user = FirebaseAuth.instance.currentUser;
-  final CollectionReference statusCollection =   FirebaseFirestore.instance.collection('Statuss');
 
   final CollectionReference status2Collection =   FirebaseFirestore.instance.collection('Status');
+  final CollectionReference notificationCollection = FirebaseFirestore.instance.collection('Notification');
+  final CollectionReference notificationReference = FirebaseFirestore.instance.collection('Notification');
 
 
 
-  Future updateUserData(String name,String location,int duration) async{
-    return await statusCollection.doc(uid).set({
-      'name': name,
-      'location': location,
-      'duration': duration
-    });
-  }
 
-  Future updateUserStatus(String description,String location,String typeOfMeet, String time) async
+
+  Future updateUserStatus(String description,String location,String typeOfMeet, String time,String uid) async
   {
     return await status2Collection.doc(uid).set({
       'name' : user?.displayName,
@@ -31,21 +27,20 @@ class DatabaseService
       'location' : location,
       'typeOfMeet': typeOfMeet,
       'time': time,
-      'photoUrl': user?.photoURL
+      'photoUrl': user?.photoURL,
+      'uid': uid
+    });
+  }
+
+  Future notifyStatusOwner(String Suid) async
+  {
+    return await notificationCollection.doc(Suid).collection('notifications').doc().set({
+      'Name': user?.displayName
     });
   }
 
 
-  //status list from snapshot
-  List<Status> _statusListFromSnapShot(QuerySnapshot snapshot){
-    return snapshot.docs.map((doc){
-      return Status(
-          name: doc.get('name') ?? '',
-          location: doc.get('location') ?? '0',
-          duration : doc.get('duration') ?? 0
-      );
-    }).toList();
-  }
+
 
   //status list from snapshot
   List<Status2> _status2ListFromSnapShot(QuerySnapshot snapshot){
@@ -56,20 +51,24 @@ class DatabaseService
           description: doc.get('description') ?? 'nothing',
           typeOfMeet: doc.get('typeOfMeet') ?? 'normal',
           time: doc.get('time') ?? '',
-          photoUrl: doc.get('photoUrl') ?? ''
+          photoUrl: doc.get('photoUrl') ?? '',
+          uid: doc.get('uid')
       );
     }).toList();
   }
 
-  //get status stream
-  Stream<List<Status>> get status
-  {
-    return statusCollection.snapshots().map(_statusListFromSnapShot);
-  }
+  //List<Notification> _notificationListFromSnapShot(){
+    // notificationCollection.doc(user?.uid).collection('notifications').get();
+
+
+
 
   Stream<List<Status2>> get status2
   {
     return status2Collection.snapshots().map(_status2ListFromSnapShot);
   }
+
+
+
 }
 

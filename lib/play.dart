@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './models/Status2.dart';
 import './screens/home/add_status.dart';
 import 'package:provider/provider.dart';
+import 'package:chumma/services/database.dart';
 
 class StatusView extends StatelessWidget {
 
@@ -11,6 +12,8 @@ class StatusView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statuses = Provider.of<List<Status2>?>(context);
+    final DatabaseService databaseService = DatabaseService();
+
 
     Widget buildStatus(BuildContext context, int index)
     {
@@ -25,8 +28,19 @@ class StatusView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
                   child: Row(children: <Widget>[
-                    ImageIcon(NetworkImage(status?.photoUrl ?? 'https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png')),
+                    ImageIcon(NetworkImage(
+                        status?.photoUrl ?? 'https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png'),
+                      size: 40,
+                    ),
                     Text(status?.name ?? 'om', style: new TextStyle(fontSize: 30.0),),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 80.0),
+                        child: FloatingActionButton(
+                          onPressed: () async{
+                               await  databaseService.notifyStatusOwner( status?.uid ?? '' );
+                          }, child: Icon(Icons.thumb_up),
+                        ),
+                    ),
                     Spacer(),
                   ]),
                 ),
@@ -58,7 +72,7 @@ class StatusView extends StatelessWidget {
                   ]),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 30.0),
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 3.0),
                   child: Row(
                     children: <Widget>[
                       Text(status?.description ?? 'o', style: new TextStyle(fontSize: 20.0),),

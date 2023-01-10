@@ -135,7 +135,7 @@ class _StatusFormState extends State<StatusForm> {
                       {
                         String sTime = time.toString();
                        //  dynamic result =  await DatabaseService(uid: user?.uid).updateUserData('new user', 'bms', 10);
-                        await DatabaseService(uid: user?.uid).updateUserStatus(description, location, typeOfMeet, sTime);
+                        await DatabaseService(uid: user?.uid).updateUserStatus(description, location, typeOfMeet, sTime,user?.uid ?? '');
                         Navigator.push(context,MaterialPageRoute(builder:(context)=> StatusView()));
                       }
                       }
